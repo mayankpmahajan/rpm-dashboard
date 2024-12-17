@@ -23,25 +23,11 @@ const Navbar = () => {
         </div>
 
         {/* Hamburger Menu (Mobile) */}
-        <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
-            <svg className="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-          </button>
-        </div>
+     
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-gray-800 text-white p-4 mt-2 rounded-lg shadow-lg">
-          <Link href="/" className="block py-2 hover:text-yellow-400"></Link>
-          <Link href="/about" className="block py-2 hover:text-yellow-400"></Link>
-          <Link href="/services" className="block py-2 hover:text-yellow-400"></Link>
-          <Link href="/portfolio" className="block py-2 hover:text-yellow-400"></Link>
-          <Link href="/contact" className="block py-2 hover:text-yellow-400"></Link>
-        </div>
-      )}
+      
+   
     </nav>
   );
 };
