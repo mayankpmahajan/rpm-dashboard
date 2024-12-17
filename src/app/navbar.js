@@ -35,11 +35,11 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-gray-800 text-white p-4 mt-2 rounded-lg shadow-lg">
-          <Link href="/" className="block py-2 hover:text-yellow-400">Home</Link>
-          <Link href="/about" className="block py-2 hover:text-yellow-400">About</Link>
-          <Link href="/services" className="block py-2 hover:text-yellow-400">Services</Link>
-          <Link href="/portfolio" className="block py-2 hover:text-yellow-400">Portfolio</Link>
-          <Link href="/contact" className="block py-2 hover:text-yellow-400">Contact</Link>
+          <Link href="/" className="block py-2 hover:text-yellow-400"></Link>
+          <Link href="/about" className="block py-2 hover:text-yellow-400"></Link>
+          <Link href="/services" className="block py-2 hover:text-yellow-400"></Link>
+          <Link href="/portfolio" className="block py-2 hover:text-yellow-400"></Link>
+          <Link href="/contact" className="block py-2 hover:text-yellow-400"></Link>
         </div>
       )}
     </nav>

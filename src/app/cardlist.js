@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -7,14 +7,15 @@ import {
 
 const files = ["PEAKS"];
 
-const Tag = ({ text, onClick }) => (
+// Use React.memo for static components like `Tag`
+const Tag = React.memo(({ text, onClick }) => (
   <button
     onClick={onClick}
     className="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-1 rounded-full cursor-pointer hover:bg-purple-200 transition"
   >
     {text}
   </button>
-);
+));
 
 const CardList = ({ runs, peaks }) => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -25,36 +26,40 @@ const CardList = ({ runs, peaks }) => {
     setSelectedFile(file);
   };
 
-  const switchFile = (file) => setSelectedFile(file);
-
   const goBack = () => {
     setSelectedCard(null);
     setSelectedFile(null);
   };
 
-  // Define columns and data dynamically
-  const columns = selectedCard
-    ? [
-        { accessorKey: "serialNo", header: "Serial No." },
-        { accessorKey: "currentkm", header: "Km" },
-        { accessorKey: "distance", header: "Distance" },
-        { accessorKey: "vertical_peak", header: "Vertical Peak" },
-        { accessorKey: "lateral_peak", header: "Lateral Peak" },
-        { accessorKey: "speed", header: "Speed" },
-      ]
-    : [];
+  // Filter and memoize data for the table to avoid unnecessary calculations
+  const tableData = useMemo(() => {
+    if (!selectedCard) return [];
+    return peaks
+      .filter((peak) => peak.section === selectedCard._id.toString())
+      .map((peak, index) => ({
+        serialNo: index + 1,
+        ...peak,
+      }));
+  }, [selectedCard, peaks]);
 
-  const data = selectedCard
-    ? peaks
-        .filter((peak) => peak.section === selectedCard._id.toString())
-        .map((peak, index) => ({
-          serialNo: index + 1,
-          ...peak,
-        }))
-    : [];
+  // Define columns dynamically
+  const columns = useMemo(
+    () =>
+      selectedCard
+        ? [
+            { accessorKey: "serialNo", header: "Serial No." },
+            { accessorKey: "currentkm", header: "Km" },
+            { accessorKey: "distance", header: "Distance" },
+            { accessorKey: "vertical_peak", header: "Vertical Peak" },
+            { accessorKey: "lateral_peak", header: "Lateral Peak" },
+            { accessorKey: "speed", header: "Speed" },
+          ]
+        : [],
+    [selectedCard]
+  );
 
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -100,7 +105,7 @@ const CardList = ({ runs, peaks }) => {
 
           <div className="flex flex-wrap gap-2">
             {files.map((file, index) => (
-              <Tag key={index} text={file} onClick={() => switchFile(file)} />
+              <Tag key={index} text={file} onClick={() => setSelectedFile(file)} />
             ))}
           </div>
         </div>
@@ -163,7 +168,7 @@ const CardList = ({ runs, peaks }) => {
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 bg-gray-50 min-h-screen mt-16">
       {runs
-        .sort((a, b) => a._id - b._id) // Sort the runs by _id in ascending order
+        .sort((a, b) => a._id - b._id)
         .map((run) => (
           <div
             key={run._id}
@@ -199,11 +204,7 @@ const CardList = ({ runs, peaks }) => {
 
             <div className="flex flex-wrap gap-2">
               {files.map((file, index) => (
-                <Tag
-                  key={index}
-                  text={file}
-                  onClick={() => viewCard(run, file)}
-                />
+                <Tag key={index} text={file} onClick={() => viewCard(run, file)} />
               ))}
             </div>
           </div>
