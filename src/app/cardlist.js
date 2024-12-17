@@ -36,7 +36,7 @@ const CardList = ({ runs, peaks }) => {
   const columns = selectedCard
     ? [
         { accessorKey: "serialNo", header: "Serial No." },
-        { accessorKey: "currentkm", header: "Current Km" },
+        { accessorKey: "currentkm", header: "Km" },
         { accessorKey: "distance", header: "Distance" },
         { accessorKey: "vertical_peak", header: "Vertical Peak" },
         { accessorKey: "lateral_peak", header: "Lateral Peak" },

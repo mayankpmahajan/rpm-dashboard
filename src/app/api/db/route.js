@@ -1,13 +1,17 @@
 import { Pool } from 'pg';
 
-// Configure the PostgreSQL pool
+
+
 const pool = new Pool({
-    user: "myuser",
-    host: "45.118.162.91",
-    database: "myoms",
-    password: "mypassword",
-    port: "5432",
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: "mypassword",
+  port: process.env.DB_PORT,
 });
+
+export default pool;
+
 
 // Named export for the GET method
 export async function GET() {
