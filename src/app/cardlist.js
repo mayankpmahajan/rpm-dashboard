@@ -162,50 +162,52 @@ const CardList = ({ runs, peaks }) => {
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6 bg-gray-50 min-h-screen mt-16">
-      {runs.map((run) => (
-        <div
-          key={run._id}
-          className="bg-white shadow-lg rounded-lg p-4 md:p-6 border border-gray-200 hover:shadow-2xl transition-shadow duration-200"
-        >
-          <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-gray-500 mb-4">
-            <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
-              #{run._id}
-            </span>
-            <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
-              {run.cal_date || "N/A"}
-            </span>
-            <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
-              {run.run_time || "N/A"}
-            </span>
-          </div>
+      {runs
+        .sort((a, b) => a._id - b._id) // Sort the runs by _id in ascending order
+        .map((run) => (
+          <div
+            key={run._id}
+            className="bg-white shadow-lg rounded-lg p-4 md:p-6 border border-gray-200 hover:shadow-2xl transition-shadow duration-200"
+          >
+            <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-gray-500 mb-4">
+              <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
+                #{run._id}
+              </span>
+              <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
+                {run.cal_date || "N/A"}
+              </span>
+              <span className="bg-gray-200 px-2 py-1 rounded-full text-gray-700">
+                {run.run_time || "N/A"}
+              </span>
+            </div>
 
-          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
-            Run {run._id}
-          </h3>
+            <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+              Run {run._id}
+            </h3>
 
-          <div className="text-gray-600 text-sm grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
-            <p>
-              <strong>Train:</strong> {run.train_number || "N/A"}
-            </p>
-            <p>
-              <strong>Coach:</strong> {run.coach_number || "N/A"}
-            </p>
-            <p>
-              <strong>Railway:</strong> {run.railway || "N/A"}
-            </p>
-          </div>
+            <div className="text-gray-600 text-sm grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+              <p>
+                <strong>Train:</strong> {run.train_number || "N/A"}
+              </p>
+              <p>
+                <strong>Coach:</strong> {run.coach_number || "N/A"}
+              </p>
+              <p>
+                <strong>Railway:</strong> {run.railway || "N/A"}
+              </p>
+            </div>
 
-          <div className="flex flex-wrap gap-2">
-            {files.map((file, index) => (
-              <Tag
-                key={index}
-                text={file}
-                onClick={() => viewCard(run, file)}
-              />
-            ))}
+            <div className="flex flex-wrap gap-2">
+              {files.map((file, index) => (
+                <Tag
+                  key={index}
+                  text={file}
+                  onClick={() => viewCard(run, file)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
