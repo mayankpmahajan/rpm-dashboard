@@ -34,13 +34,25 @@ const CardList = ({ runs, peaks }) => {
   // Filter and memoize data for the table to avoid unnecessary calculations
   const tableData = useMemo(() => {
     if (!selectedCard) return [];
+  
+    // Ensure thresholds are available in selectedCard
+    const lowVerThreshold = selectedCard.low_ver_threshold || 0;
+    const lowLatThreshold = selectedCard.low_lat_threshold || 0;
+  
     return peaks
-      .filter((peak) => peak.section === selectedCard._id.toString())
+      .filter(
+        (peak) =>
+          Number(peak.section) === selectedCard._id &&
+          (peak.vertical_peak >= lowVerThreshold || peak.lateral_peak >= lowLatThreshold)
+      )
+      .sort((a, b) => a.currentkm - b.currentkm) // Sort by `currentkm`
       .map((peak, index) => ({
         serialNo: index + 1,
         ...peak,
       }));
   }, [selectedCard, peaks]);
+  
+  
 
   // Define columns dynamically
   const columns = useMemo(
@@ -100,6 +112,15 @@ const CardList = ({ runs, peaks }) => {
             </p>
             <p>
               <strong>Railway:</strong> {selectedCard.railway || "N/A"}
+            </p>
+            <p>
+              <strong>Machine number:</strong> LIC/OMS/047
+            </p>
+            <p>
+              <strong>Vetrical Peak Threshold:</strong> {selectedCard.low_ver_threshold}
+            </p>
+            <p>
+              <strong>Lateral Peak Threshold:</strong> {selectedCard.low_lat_threshold}
             </p>
           </div>
 
@@ -200,6 +221,9 @@ const CardList = ({ runs, peaks }) => {
               <p>
                 <strong>Railway:</strong> {run.railway || "N/A"}
               </p>
+              <p>
+              <strong>Machine number:</strong> LIC/OMS/047
+            </p>
             </div>
 
             <div className="flex flex-wrap gap-2">
