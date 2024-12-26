@@ -246,7 +246,7 @@ const Dashboard = () => {
       {/* Tables */}
       <div className="space-y-8">
         {[
-          { title: "Users", data: users, fields: ["user_name", "email_id"] },
+          { title: "Users", data: users, fields: ["user_name"] },
           {
             title: "CRT Devices",
             data: devices,
