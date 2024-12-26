@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import  pool from '../combined/route';
 
-const JWT_SECRET = process.env.JWT_SECRET_KEY; // Replace with an environment variable in production
+const JWT_SECRET = process.env.JWT_SECRET_KEY || "q3x9B!t2Xz7gHfVr9kM@wNpL8p1JkZ"; // Replace with an environment variable in production
 
 export async function POST(req) {
   try {

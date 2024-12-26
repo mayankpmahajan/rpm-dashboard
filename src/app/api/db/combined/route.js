@@ -23,7 +23,7 @@ export async function GET(req) {
     }
 
     // Decode the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, "q3x9B!t2Xz7gHfVr9kM@wNpL8p1JkZ");
     const userName = decoded.user_name;
     if (!userName) {
       return new Response(JSON.stringify({ message: 'Invalid token' }), { status: 401 });
