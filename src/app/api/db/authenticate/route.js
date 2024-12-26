@@ -26,6 +26,6 @@ export async function POST(req) {
     return Response.json({ token }, { status: 200 });
   } catch (error) {
     console.error('Error during authentication:', error);
-    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+    return Response.json({ error: 'Internal Server Error', message: error.message }, { status: 500 });
   }
 }
