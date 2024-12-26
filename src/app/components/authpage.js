@@ -9,13 +9,34 @@ const AuthPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Tracks authentication status
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
-    // Check credentials
-    if (username === '123' && password === '123') {
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Invalid username or password');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/db/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_name: username,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.token)
+        
+        localStorage.setItem('token', data.token); // Store the JWT token
+        console.log('Token stored in localStorage:', localStorage.getItem('token'));
+        setIsAuthenticated(true);
+        setError('');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Authentication failed');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('An unexpected error occurred. Please try again.');
     }
   };
 

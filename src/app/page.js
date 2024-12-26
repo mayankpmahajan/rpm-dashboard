@@ -1,4 +1,4 @@
-import AuthPage from './authpage'; // Adjust the import path based on your folder structure
+import AuthPage from './components/authpage'; // Adjust the import path based on your folder structure
 
 function App() {
   return <AuthPage />;
