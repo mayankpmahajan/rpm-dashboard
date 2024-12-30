@@ -3,13 +3,23 @@ import pool from '../combined/route';
 // Handle GET requests (Fetch all CRT devices)
 export async function GET() {
   try {
-    const devices = await pool.query('SELECT * FROM crt_devices');
-    return Response.json(devices.rows, { status: 200 });
+    // Query the `run` table for distinct combinations of `run_no` and `railway`, sorted by `run_no`
+    const result = await pool.query(
+      'SELECT DISTINCT run_no, railway FROM run ORDER BY run_no ASC'
+    );
+
+    // Return the sorted distinct combinations
+    return Response.json(result.rows, { status: 200 });
   } catch (error) {
-    console.error('Error fetching CRT devices:', error);
-    return Response.json({ message: 'Failed to fetch CRT devices' }, { status: 500 });
+    console.error('Error fetching distinct and sorted run_no and railway combinations:', error);
+    return Response.json(
+      { message: 'Failed to fetch distinct and sorted run_no and railway combinations' },
+      { status: 500 }
+    );
   }
 }
+
+
 
 // Handle POST requests (Add a new CRT device)
 export async function POST(req) {

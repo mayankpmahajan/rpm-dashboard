@@ -42,7 +42,7 @@ export async function GET(req) {
 
     // Query crt_devices for train_number and railway (using crt_id as integers)
     const crtDevicesResult = await pool.query(
-      'SELECT train_number, railway FROM crt_devices WHERE crt_id = ANY($1::int[])',
+      'SELECT train_number, railway FROM run WHERE run_no = ANY($1::int[])',
       [crtIds]
     );
     const crtDevices = crtDevicesResult.rows;
